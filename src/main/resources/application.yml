@@ -1,6 +1,9 @@
 server:
   port: 8080
 spring:
+  cache:
+    redis:
+      time-to-live: 1800000 #设置缓存过期时间
   redis:
     host: 192.168.171.128 # linux虚拟机远程访问
     port: 6379

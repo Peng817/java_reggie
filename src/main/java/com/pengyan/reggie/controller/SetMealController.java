@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.Utilities;
@@ -38,6 +40,7 @@ public class SetMealController {
      * @return
      */
     @PostMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> save(@RequestBody SetmealDto dto){
 
         setMealService.saveWithDish(dto);
@@ -100,6 +103,7 @@ public class SetMealController {
     }
 
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public R<String> remove(@RequestParam List<Long> ids){
         log.info("ids{}", ids);
         //dishService.removeWithDishFlavor(idsList);
@@ -127,12 +131,13 @@ public class SetMealController {
      * @param setmeal
      * @return
      */
+    @Cacheable(value = "setmealCache",key = "#setmeal.categoryId + '_' + #setmeal.status")
     @GetMapping("/list")
     public R<List<SetmealDto>> listByCategory(Setmeal setmeal){
         LambdaQueryWrapper<Setmeal> query = new LambdaQueryWrapper<>();
-        query.eq(Setmeal::getCategoryId, setmeal.getCategoryId());
+        query.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId, setmeal.getCategoryId());
         //添加条件，查询状态为1(起售)的菜品
-        query.eq(Setmeal::getStatus, 1);
+        query.eq(setmeal.getStatus()!= null,Setmeal::getStatus, 1);
         //query.orderByAsc(Setmeal::getSort).orderByDesc(Setmeal::getUpdateTime);
         List<Setmeal> setmealList = setMealService.list(query);
         List<SetmealDto> setmealDtoList = setmealList.stream().map((item) -> {
