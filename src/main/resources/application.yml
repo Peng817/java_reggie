@@ -1,6 +1,10 @@
 server:
   port: 8080
 spring:
+  redis:
+    host: 192.168.171.128 # linux虚拟机远程访问
+    port: 6379
+    password: 654321 # linux虚拟机redis服务验证密码
   application:
     #应用名称，可选
     name: reggie_take_out
@@ -20,4 +24,5 @@ mybatis-plus:
       id-type: ASSIGN_ID
 
 reggie:
-  path: D:\BaiduNetdiskDownload\1 瑞吉外卖项目\资料\文件上传下载页面\
+  path: D:\1_课程整理\企业级\reggie_workspace\img\
+

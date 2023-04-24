@@ -54,6 +54,10 @@ public class DishServiceImpl
         List<DishFlavor> flavors = dishDto.getFlavors();
         LambdaQueryWrapper<DishFlavor> query = new LambdaQueryWrapper<>();
         query.eq(DishFlavor::getDishId, dishId);
+
+        //暂时看看
+        List<DishFlavor> list = dishFlavorService.list(query);
+
         dishFlavorService.remove(query);
         flavors = flavors.stream().map((item)->{
             item.setDishId(dishId);

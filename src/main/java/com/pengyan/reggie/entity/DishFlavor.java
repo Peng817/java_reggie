@@ -44,7 +44,6 @@ public class DishFlavor implements Serializable {
     private Long updateUser;
 
 
-    @TableLogic(value = "0",delval = "1")
     //是否删除
     private Integer isDeleted;
 
