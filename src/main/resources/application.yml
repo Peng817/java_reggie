@@ -49,5 +49,5 @@ mybatis-plus:
       id-type: ASSIGN_ID
 
 reggie:
-  path: D:\1_课程整理\企业级\reggie_workspace\img\
+  path: /usr/local/img/
 
